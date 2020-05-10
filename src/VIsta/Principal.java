@@ -88,10 +88,12 @@ public class Principal extends javax.swing.JFrame {
              barraInmovil.salir.addActionListener(new ActionListener(){
                 @Override
                 public void actionPerformed(ActionEvent e) {
-
                  fondo.setVisible(true);
                  log.setVisible(true);
-                 lo.setVisible(true);   }    });
+                 lo.setVisible(true); 
+                 barraInmovil.setVisible(false);
+                 materias.setVisible(false);
+                 }    });
                 
              barraInmovil.ListaMaterias.addListSelectionListener(new ListSelectionListener() {
             @Override
