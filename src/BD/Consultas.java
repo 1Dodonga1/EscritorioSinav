@@ -77,8 +77,39 @@ public class Consultas {
         return datos;
     }
     
+    
+    public String[] Examenes(String idmateria){
+         String sentencia="select Nombre from examen where Materias_IdMaterias="+idmateria+";";
+        ResultSet rs=null;
+        String datos []=null;
+        
+        try {
+            PreparedStatement ps=cone.getConexion().prepareCall(sentencia);
+            rs=ps.executeQuery();
+            int contador=0;
+            
+            while(rs.next()){
+                contador++;
+            }
+            rs.first();
+            datos= new String [contador];
+            int i=0;
+            do{
+                datos[i]=rs.getString(1);
+                i++;
+            }while(rs.next());
+            
+        } catch (Exception e) {
+            System.out.println("no puedo traer los datos"+e);
+        }
+        
+        return datos;
+    }
+    
     public static void main(String[] args) {
         Consultas consul=new Consultas();
         System.out.println(Arrays.toString(consul.materias("1")));
+        System.out.println(Arrays.toString(consul.Examenes("1")));
+        
     }
 }
