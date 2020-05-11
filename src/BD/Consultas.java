@@ -9,6 +9,7 @@ import Datos.Usuario;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -46,5 +47,38 @@ public class Consultas {
             return  false;
         }
         return true;
+    }
+    
+    public String[] materias(String idAlu){
+         String sentencia="select  m.Materia from sinav.materias as m inner join  listaasistencia as l  on l.Alumnos_IdAlumnos="+idAlu+" and m.IdMaterias=l.Materias_IdMaterias;";
+        ResultSet rs=null;
+        String datos []=null;
+        
+        try {
+            PreparedStatement ps=cone.getConexion().prepareCall(sentencia);
+            rs=ps.executeQuery();
+            int contador=0;
+            
+            while(rs.next()){
+                contador++;
+            }
+            rs.first();
+            datos= new String [contador];
+            int i=0;
+            do{
+                datos[i]=rs.getString(1);
+                i++;
+            }while(rs.next());
+            
+        } catch (Exception e) {
+            System.out.println("no puedo traer los datos"+e);
+        }
+        
+        return datos;
+    }
+    
+    public static void main(String[] args) {
+        Consultas consul=new Consultas();
+        System.out.println(Arrays.toString(consul.materias("1")));
     }
 }
