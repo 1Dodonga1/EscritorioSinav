@@ -16,6 +16,7 @@ public class Login extends javax.swing.JPanel {
      */
     public Login() {
         initComponents();
+        txtUsuario.requestFocus();
     }
 
     /**
@@ -31,7 +32,7 @@ public class Login extends javax.swing.JPanel {
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
         txtContraseña = new javax.swing.JTextField();
-        TxtUsuario = new javax.swing.JTextField();
+        txtUsuario = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         OK = new javax.swing.JButton();
@@ -45,13 +46,21 @@ public class Login extends javax.swing.JPanel {
 
         txtContraseña.setBackground(new java.awt.Color(153, 153, 153));
         txtContraseña.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
-        txtContraseña.setText("Escribe...");
         txtContraseña.setBorder(null);
+        txtContraseña.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtContraseñaKeyPressed(evt);
+            }
+        });
 
-        TxtUsuario.setBackground(new java.awt.Color(153, 153, 153));
-        TxtUsuario.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
-        TxtUsuario.setText("Escribe...");
-        TxtUsuario.setBorder(null);
+        txtUsuario.setBackground(new java.awt.Color(153, 153, 153));
+        txtUsuario.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        txtUsuario.setBorder(null);
+        txtUsuario.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtUsuarioKeyPressed(evt);
+            }
+        });
 
         jLabel2.setBackground(new java.awt.Color(102, 102, 102));
         jLabel2.setFont(new java.awt.Font("Dubai Light", 1, 24)); // NOI18N
@@ -84,7 +93,7 @@ public class Login extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(TxtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(125, 125, 125)
@@ -106,7 +115,7 @@ public class Login extends javax.swing.JPanel {
                 .addContainerGap(76, Short.MAX_VALUE)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
-                .addComponent(TxtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -127,15 +136,30 @@ public class Login extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_OKActionPerformed
 
+    private void txtUsuarioKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUsuarioKeyPressed
+        // TODO add your handling code here:
+        
+        if(evt.getKeyCode()==java.awt.event.KeyEvent.VK_ENTER){
+            txtContraseña.requestFocus();
+        }
+    }//GEN-LAST:event_txtUsuarioKeyPressed
+
+    private void txtContraseñaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtContraseñaKeyPressed
+        // TODO add your handling code here:
+        if(evt.getKeyCode()==java.awt.event.KeyEvent.VK_ENTER){
+            OK.requestFocus();
+        }
+    }//GEN-LAST:event_txtContraseñaKeyPressed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JButton OK;
-    private javax.swing.JTextField TxtUsuario;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JTextField txtContraseña;
+    public javax.swing.JTextField txtContraseña;
+    public javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables
 }
