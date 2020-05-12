@@ -5,12 +5,18 @@
  */
 package VIsta;
 
+import BD.Consultas;
 import VIsta.Materias;
 import VIsta.Login;
 import VIsta.BarraInmovil;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import org.netbeans.lib.awtextra.AbsoluteConstraints;
@@ -29,6 +35,7 @@ public class Principal extends javax.swing.JFrame {
     Login lo=new Login();
     BarraInmovil barraInmovil= new BarraInmovil();
     Materias materias= new Materias();
+    Consultas consultas=new Consultas();
     public Principal() {
         inicio();
         elementodDeInicio();
@@ -109,6 +116,58 @@ public class Principal extends javax.swing.JFrame {
                 @Override
                  public void actionPerformed(ActionEvent e) {
                   validar();} });
+           //evento para cuando tiene el foco y preciona enter
+             lo.OK.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                 
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+               
+            if(e.getKeyCode()==java.awt.event.KeyEvent.VK_ENTER){
+                validar();
+            }
+                
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+             
+            }
+        });
+        
+        //eventos de la lista materia
+        barraInmovil.ListaMaterias.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                materias.txtMateria.setText(barraInmovil.ListaMaterias.getSelectedValue());
+                materias.ListaExamenes.setListData(consultas.Examenes("1"));
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+               // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+        
+        });
+        
         
         this.getContentPane().add(materias);
             
@@ -121,14 +180,23 @@ public class Principal extends javax.swing.JFrame {
         lo.setVisible(true);
     }
     public void validar(){
-        //elementos de inicio 
+        boolean sente = consultas.ConsultarUsuario(lo.txtUsuario.getText(), lo.txtContraseña.getText());
+        if(sente==true){
+        cargarListaMaterias();//cargando las materias que tiene el alumno
+        materias.txtNombre.setText(Datos.Usuario.getNombre()); //agreganado nombre a la ventana de materia
+        //materias.txtMateria.setText(Datos.Materia.getNombre());
         fondo.setVisible(false);
         log.setVisible(false);
         lo.setVisible(false);
         //barra Lateral 
         barraInmovil.setSize(304,800);
-        barraInmovil.setVisible(true);      
-               
+        barraInmovil.setVisible(true);}
+        else
+            JOptionPane.showMessageDialog(null, "datos incorrectos");
+        
+    }
+    public void cargarListaMaterias(){     
+        barraInmovil.ListaMaterias.setListData(consultas.materias(Datos.Usuario.getIdUsuario()));
     }
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */

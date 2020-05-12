@@ -18,6 +18,7 @@ public class Materias extends javax.swing.JPanel {
      * Creates new form NewJPanel
      */
     public Materias() {
+        //txtNombre.setText(Datos.Usuario.getNombre());
         initComponents();
     }
 
@@ -30,18 +31,20 @@ public class Materias extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
+        txtMateria = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        txtNombre = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        ListaExamenes = new javax.swing.JList<>();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setLayout(null);
 
-        jLabel1.setFont(new java.awt.Font("DialogInput", 0, 36)); // NOI18N
-        jLabel1.setText("Nombre Materia");
-        add(jLabel1);
-        jLabel1.setBounds(47, 6, 317, 62);
+        txtMateria.setFont(new java.awt.Font("DialogInput", 0, 36)); // NOI18N
+        txtMateria.setText("Nombre Materia");
+        add(txtMateria);
+        txtMateria.setBounds(47, 6, 317, 62);
 
         jLabel2.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(153, 153, 153));
@@ -49,10 +52,10 @@ public class Materias extends javax.swing.JPanel {
         add(jLabel2);
         jLabel2.setBounds(260, 95, 94, 24);
 
-        jLabel3.setFont(new java.awt.Font("Bell MT", 0, 18)); // NOI18N
-        jLabel3.setText("Nombre Alumno");
-        add(jLabel3);
-        jLabel3.setBounds(386, 90, 223, 37);
+        txtNombre.setFont(new java.awt.Font("Bell MT", 0, 18)); // NOI18N
+        txtNombre.setText("Nombre Alumno");
+        add(txtNombre);
+        txtNombre.setBounds(386, 90, 223, 37);
 
         jLabel6.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
         jLabel6.setText("X");
@@ -63,6 +66,19 @@ public class Materias extends javax.swing.JPanel {
         });
         add(jLabel6);
         jLabel6.setBounds(980, 10, 27, 32);
+
+        ListaExamenes.setBackground(new java.awt.Color(255, 255, 255));
+        ListaExamenes.setFont(new java.awt.Font("DialogInput", 0, 18)); // NOI18N
+        ListaExamenes.setForeground(new java.awt.Color(51, 51, 51));
+        ListaExamenes.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane1.setViewportView(ListaExamenes);
+
+        add(jScrollPane1);
+        jScrollPane1.setBounds(110, 230, 550, 230);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
@@ -71,9 +87,11 @@ public class Materias extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
+    public javax.swing.JList<String> ListaExamenes;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JScrollPane jScrollPane1;
+    public javax.swing.JLabel txtMateria;
+    public javax.swing.JLabel txtNombre;
     // End of variables declaration//GEN-END:variables
 }

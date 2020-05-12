@@ -32,14 +32,16 @@ public class Consultas {
         ResultSet rs=null;
 
         try {
-             PreparedStatement ps = cone.getConexion().prepareCall(sentencia);
-             rs=ps.executeQuery();
+            PreparedStatement ps = cone.getConexion().prepareCall(sentencia);
+            rs=ps.executeQuery();
             rs.first();
+            
             Datos.Usuario.setIdUsuario(rs.getString("IdAlumnos"));
             Datos.Usuario.setNombre(rs.getString("Nombre"));
-            Datos.Usuario.setUsuario(rs.getString("contraseña"));
+            Datos.Usuario.setUsuario(rs.getString("Usuario"));
+            System.out.println(Datos.Usuario.getIdUsuario());
             
-            cone.getConexion().close();
+            //cone.getConexion().close();
             
         } catch (SQLException ex) {
             
@@ -71,7 +73,7 @@ public class Consultas {
             }while(rs.next());
             
         } catch (Exception e) {
-            System.out.println("no puedo traer los datos"+e);
+            System.out.println("no puedo traer los datos de materia"+e);
         }
         
         return datos;
@@ -100,7 +102,7 @@ public class Consultas {
             }while(rs.next());
             
         } catch (Exception e) {
-            System.out.println("no puedo traer los datos"+e);
+            System.out.println("no puedo traer los datos de examen"+e);
         }
         
         return datos;
@@ -108,8 +110,10 @@ public class Consultas {
     
     public static void main(String[] args) {
         Consultas consul=new Consultas();
-        System.out.println(Arrays.toString(consul.materias("1")));
-        System.out.println(Arrays.toString(consul.Examenes("1")));
+       
+       // System.out.println(Arrays.toString(consul.Examenes("1")));
+        //consul.ConsultarUsuario("m", "m");
+        //System.out.println(Arrays.toString(consul.materias(Datos.Usuario.getIdUsuario())));
         
     }
 }
