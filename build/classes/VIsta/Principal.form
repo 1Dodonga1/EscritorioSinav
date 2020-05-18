@@ -28,7 +28,7 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
               <EmptySpace min="90" pref="90" max="-2" attributes="0"/>
-              <Component id="log" min="-2" pref="290" max="-2" attributes="0"/>
+              <Component id="logo" min="-2" pref="290" max="-2" attributes="0"/>
           </Group>
           <Component id="fondo" min="-2" pref="1279" max="-2" attributes="0"/>
       </Group>
@@ -37,14 +37,14 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
               <EmptySpace min="290" pref="290" max="-2" attributes="0"/>
-              <Component id="log" min="-2" max="-2" attributes="0"/>
+              <Component id="logo" min="-2" max="-2" attributes="0"/>
           </Group>
           <Component id="fondo" min="-2" max="-2" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JLabel" name="log">
+    <Component class="javax.swing.JLabel" name="logo">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
           <Image iconType="3" name="/recursos/logoP.png"/>
