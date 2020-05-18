@@ -5,18 +5,12 @@
  */
 package VIsta;
 
-import BD.Consultas;
 import VIsta.Materias;
 import VIsta.Login;
-import VIsta.BarraInmovil;
+import VIsta.PanelAlumno;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import org.netbeans.lib.awtextra.AbsoluteConstraints;
@@ -28,14 +22,10 @@ import org.netbeans.lib.awtextra.AbsoluteConstraints;
  * @author Alma Cuevas
  */
 public class Principal extends javax.swing.JFrame {
-
-    /**
-     * Creates new form Principal
-     */
-    Login lo=new Login();
-    BarraInmovil barraInmovil= new BarraInmovil();
-    Materias materias= new Materias();
-    Consultas consultas=new Consultas();
+    int ancho = java.awt.Toolkit.getDefaultToolkit().getScreenSize().width;
+    int alto = java.awt.Toolkit.getDefaultToolkit().getScreenSize().height;
+    Login PanelLogin=new Login();
+    PanelAlumno panelAlumno= new PanelAlumno();
     public Principal() {
         inicio();
         elementodDeInicio();
@@ -51,14 +41,14 @@ public class Principal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        log = new javax.swing.JLabel();
+        logo = new javax.swing.JLabel();
         fondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(204, 204, 204));
 
-        log.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/logoP.png"))); // NOI18N
-        log.setText("jLabel1");
+        logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/logoP.png"))); // NOI18N
+        logo.setText("jLabel1");
 
         fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/fondoPrin.jpg"))); // NOI18N
         fondo.setText("jLabel5");
@@ -69,14 +59,14 @@ public class Principal extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(90, 90, 90)
-                .addComponent(log, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(logo, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addComponent(fondo, javax.swing.GroupLayout.PREFERRED_SIZE, 1279, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(290, 290, 290)
-                .addComponent(log))
+                .addComponent(logo))
             .addComponent(fondo)
         );
 
@@ -88,115 +78,57 @@ public class Principal extends javax.swing.JFrame {
      */
     
     public void elementodDeInicio(){
-        //paneles necesarios se cargan al inicio 
-        this.getContentPane().add(barraInmovil); // barra lateral
-          //sus eventos 
-           //evento del boton salir de barra lateal
-             barraInmovil.salir.addActionListener(new ActionListener(){
+        
+        this.getContentPane().add(panelAlumno); 
+          
+           //evento de el boton salir de el panel principal
+             panelAlumno.salir.addActionListener(new ActionListener(){
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                 fondo.setVisible(true);
-                 log.setVisible(true);
-                 lo.setVisible(true); 
-                 barraInmovil.setVisible(false);
-                 materias.setVisible(false);
-                 }    });
+                   saliendo();  }   
+                 });
                 
-             barraInmovil.ListaMaterias.addListSelectionListener(new ListSelectionListener() {
+             /*barraInmovil.ListaMaterias.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 materias.setVisible(true);
                 materias.setLocation(304, 0);
                 materias.setSize(1100, 800);
-            }});
+            }});*/
         
-        this.getContentPane().add(lo); ///panel login
-           //evento de entrat de login
-             lo.OK.addActionListener(new ActionListener(){
+        ///panel login "editando el boton para logearse"
+        this.getContentPane().add(PanelLogin); 
+             PanelLogin.OK.addActionListener(new ActionListener(){
                 @Override
                  public void actionPerformed(ActionEvent e) {
-                  validar();} });
-           //evento para cuando tiene el foco y preciona enter
-             lo.OK.addKeyListener(new KeyListener() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-                 
-            }
-
-            @Override
-            public void keyPressed(KeyEvent e) {
-               
-            if(e.getKeyCode()==java.awt.event.KeyEvent.VK_ENTER){
-                validar();
-            }
-                
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-             
-            }
-        });
-        
-        //eventos de la lista materia
-        barraInmovil.ListaMaterias.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-                materias.txtMateria.setText(barraInmovil.ListaMaterias.getSelectedValue());
-                materias.ListaExamenes.setListData(consultas.Examenes("1"));
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-               // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-        
-        });
+                  Entro();} });
         
         
-        this.getContentPane().add(materias);
             
     }
     public void inicio(){
+        //elementos que deven estar en inicio
         this.getContentPane().setBackground(new java.awt.Color( 204,204,204));
         this.setExtendedState(Principal.MAXIMIZED_BOTH);
-        lo.setSize(309, 554 );
-        lo.setLocation(980, 160);
-        lo.setVisible(true);
+        PanelLogin.setSize(309, 554 );
+        PanelLogin.setLocation(980, 160);
+        PanelLogin.setVisible(true);
     }
-    public void validar(){
-        boolean sente = consultas.ConsultarUsuario(lo.txtUsuario.getText(), lo.txtContraseña.getText());
-        if(sente==true){
-        cargarListaMaterias();//cargando las materias que tiene el alumno
-        materias.txtNombre.setText(Datos.Usuario.getNombre()); //agreganado nombre a la ventana de materia
-        //materias.txtMateria.setText(Datos.Materia.getNombre());
+    public void Entro(){
+        //elementos de inicio  
         fondo.setVisible(false);
-        log.setVisible(false);
-        lo.setVisible(false);
+        logo.setVisible(false);
+        PanelLogin.setVisible(false);
         //barra Lateral 
-        barraInmovil.setSize(304,800);
-        barraInmovil.setVisible(true);}
-        else
-            JOptionPane.showMessageDialog(null, "datos incorrectos");
-        
+        panelAlumno.setSize(ancho,alto);
+        panelAlumno.setVisible(true);      
+               
     }
-    public void cargarListaMaterias(){     
-        barraInmovil.ListaMaterias.setListData(consultas.materias(Datos.Usuario.getIdUsuario()));
+    public void saliendo(){
+         panelAlumno.setVisible(false);
+         fondo.setVisible(true);
+         logo.setVisible(true);
+         PanelLogin.setVisible(true);  
     }
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -232,6 +164,6 @@ public class Principal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel fondo;
-    private javax.swing.JLabel log;
+    private javax.swing.JLabel logo;
     // End of variables declaration//GEN-END:variables
 }
