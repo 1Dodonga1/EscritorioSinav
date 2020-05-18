@@ -5,8 +5,8 @@
  */
 
 package VIsta;
-import Datos.Materia;
-import BD.Consultas;
+import Modelo.Materia;
+import Controlador.Consultas;
 /**
  *
  * @author Alma Cuevas

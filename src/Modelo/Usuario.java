@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Datos;
+package Modelo;
 
 /**
  *
@@ -13,6 +13,7 @@ public class Usuario {
     private static String idUsuario;
     private static String nombre;
     private static String usuario;
+    private static String contraseña;
 
     public static void setIdUsuario(String idUsuario) {
         Usuario.idUsuario = idUsuario;
@@ -25,6 +26,10 @@ public class Usuario {
     public static void setUsuario(String usuario) {
         Usuario.usuario = usuario;
     }
+    public static void setContraseña(String contraseña){
+        Usuario.contraseña = contraseña;
+    }
+    
 
     public static String getIdUsuario() {
         return idUsuario;
@@ -38,6 +43,9 @@ public class Usuario {
         return usuario;
     }
    
+    public static String getContraseña(){
+        return contraseña;
+    }
     
     
 }

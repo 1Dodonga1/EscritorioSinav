@@ -5,7 +5,7 @@
  */
 package VIsta;
 
-import BD.Consultas;
+import Controlador.Consultas;
 import VIsta.Materias;
 import VIsta.Login;
 import VIsta.BarraInmovil;
@@ -16,12 +16,13 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import org.netbeans.lib.awtextra.AbsoluteConstraints;
-
-
 
 /**
  *
@@ -32,10 +33,15 @@ public class Principal extends javax.swing.JFrame {
     /**
      * Creates new form Principal
      */
-    Login lo=new Login();
-    BarraInmovil barraInmovil= new BarraInmovil();
-    Materias materias= new Materias();
-    Consultas consultas=new Consultas();
+    Login lo = new Login();
+    BarraInmovil barraInmovil = new BarraInmovil();
+    Materias materias = new Materias();
+    Consultas consultas = new Consultas();
+
+    //Variables de la conexion de SQLite
+    Controlador.Consultas_SQLite CSQL = new Controlador.Consultas_SQLite();
+    Modelo.Usuario_Local UL, UL2 = null;
+
     public Principal() {
         inicio();
         elementodDeInicio();
@@ -86,63 +92,95 @@ public class Principal extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    
-    public void elementodDeInicio(){
+    public void elementodDeInicio() {
         //paneles necesarios se cargan al inicio 
         this.getContentPane().add(barraInmovil); // barra lateral
-          //sus eventos 
-           //evento del boton salir de barra lateal
-             barraInmovil.salir.addActionListener(new ActionListener(){
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                 fondo.setVisible(true);
-                 log.setVisible(true);
-                 lo.setVisible(true); 
-                 barraInmovil.setVisible(false);
-                 materias.setVisible(false);
-                 }    });
-                
-             barraInmovil.ListaMaterias.addListSelectionListener(new ListSelectionListener() {
+        //sus eventos 
+        //evento del boton salir de barra lateal
+        barraInmovil.salir.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                fondo.setVisible(true);
+                log.setVisible(true);
+                lo.setVisible(true);
+                barraInmovil.setVisible(false);
+                materias.setVisible(false);
+            }
+        });
+
+        barraInmovil.ListaMaterias.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 materias.setVisible(true);
                 materias.setLocation(304, 0);
                 materias.setSize(1100, 800);
-            }});
-        
+            }
+        });
+
         this.getContentPane().add(lo); ///panel login
-           //evento de entrat de login
-             lo.OK.addActionListener(new ActionListener(){
-                @Override
-                 public void actionPerformed(ActionEvent e) {
-                  validar();} });
-           //evento para cuando tiene el foco y preciona enter
-             lo.OK.addKeyListener(new KeyListener() {
+        //evento de click de login
+        lo.OK.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                validar();
+            }
+        });
+        //evento para cuando tiene el foco y preciona enter
+        lo.OK.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
-                 
+
             }
 
             @Override
             public void keyPressed(KeyEvent e) {
-               
-            if(e.getKeyCode()==java.awt.event.KeyEvent.VK_ENTER){
-                validar();
-            }
-                
+
+                if (e.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+                    validar();
+                }
+
             }
 
             @Override
             public void keyReleased(KeyEvent e) {
-             
+
             }
         });
-        
+        //Eventos del boton de agregar un nuevo usuario
+        //1   
+        lo.btnAgregarUsuario.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                RegistrarNuevoUsuario();
+            }
+        });
+        //2
+        lo.btnAgregarUsuario.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+
+                if (e.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+                    RegistrarNuevoUsuario();
+                }
+
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+
+            }
+        });
+
         //eventos de la lista materia
         barraInmovil.ListaMaterias.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
             }
 
             @Override
@@ -158,46 +196,115 @@ public class Principal extends javax.swing.JFrame {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-               // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
                 //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
             }
-        
+
         });
-        
-        
+
         this.getContentPane().add(materias);
-            
+
     }
-    public void inicio(){
-        this.getContentPane().setBackground(new java.awt.Color( 204,204,204));
+
+    public void inicio() {
+        this.getContentPane().setBackground(new java.awt.Color(204, 204, 204));
         this.setExtendedState(Principal.MAXIMIZED_BOTH);
-        lo.setSize(309, 554 );
+        lo.setSize(309, 554);
         lo.setLocation(980, 160);
         lo.setVisible(true);
     }
-    public void validar(){
-        boolean sente = consultas.ConsultarUsuario(lo.txtUsuario.getText(), lo.txtContraseña.getText());
-        if(sente==true){
-        cargarListaMaterias();//cargando las materias que tiene el alumno
-        materias.txtNombre.setText(Datos.Usuario.getNombre()); //agreganado nombre a la ventana de materia
-        //materias.txtMateria.setText(Datos.Materia.getNombre());
-        fondo.setVisible(false);
-        log.setVisible(false);
-        lo.setVisible(false);
-        //barra Lateral 
-        barraInmovil.setSize(304,800);
-        barraInmovil.setVisible(true);}
-        else
-            JOptionPane.showMessageDialog(null, "datos incorrectos");
-        
+
+    //Metodo que consulta si el usuario de la base de datos existe o no
+    public void ConsultaSQLite() {
+        String Usuario = lo.txtUsuario.getText();
+        String Contraseña = lo.txtContraseña.getText();
+
+        try {
+            UL = CSQL.IniciarSecion(Usuario, Contraseña);
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-    public void cargarListaMaterias(){     
-        barraInmovil.ListaMaterias.setListData(consultas.materias(Datos.Usuario.getIdUsuario()));
+
+    //Metodo para validar el inicio de secion de forma local
+    public void validar() {
+
+        ConsultaSQLite();
+
+        if (UL != null) {
+            //Los eventos en la parte baja cambiaran si o si por los metodos de consulta a la base de datos de SQLite.
+            //cargarListaMaterias();//FIX 
+            //cargando las materias que tiene el alumno materias
+            materias.txtNombre.setText(Modelo.Usuario.getNombre()); //agreganado nombre a la ventana de materia FIX
+            //materias.txtMateria.setText(Datos.Materia.getNombre());FIX
+            JOptionPane.showMessageDialog(null, "Iniciando Secion");
+            fondo.setVisible(false);
+            log.setVisible(false);
+            lo.setVisible(false);
+            barraInmovil.setSize(304, 800);
+            barraInmovil.setVisible(true);
+            //en dado caso de que se necesiten en un futuro los datos de UL que es el objeto de tipo usuario
+            //Estara disponible en UL2 ya que UL debe de ser devuelto a null para poder continuar.
+            //UL2 = UL;
+            //UL = null;
+        } else {
+            JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos");
+        }
+
     }
+
+    //Metodo para registrar un nuevo usuario en base a los datos de la bd principal
+    public void RegistrarNuevoUsuario() {
+        //comprueva si el usuario ya esta en la base de datos en SQLite para no registrarlo 2 veces.
+        ConsultaSQLite();
+        if (UL != null) {
+
+            JOptionPane.showMessageDialog(null, "Este usuario ya esta registrado, No es necesario volverlo a registrar");
+
+        } else {
+
+            boolean sente = consultas.ConsultarUsuario(lo.txtUsuario.getText(), lo.txtContraseña.getText());
+            if (sente == true) {
+                JOptionPane.showMessageDialog(null, "El usuario existe en el registro");
+                //Hacer un insert a la base de datos de SQLite
+                String id = Modelo.Usuario.getIdUsuario();
+
+                String usuario = Modelo.Usuario.getUsuario();
+
+                String contraseña = Modelo.Usuario.getContraseña();
+
+                try {
+                    CSQL.Registrar_Nuevo_Usuario(id, usuario, contraseña);
+                } catch (SQLException ex) {
+                    System.out.println("______________________________PROBLEMA EN REGISTRAR NUEVO USUARIO" + ex);
+                }
+
+            } else {
+                JOptionPane.showMessageDialog(null, "La contraseña es incorrecta o el usuario no existe en el Registro");
+            }
+            //hacer algo nuevo con esto luego:
+//               cargarListaMaterias();//cargando las materias que tiene el alumno
+//                materias.txtNombre.setText(Modelo.Usuario.getNombre()); //agreganado nombre a la ventana de materia
+//                //materias.txtMateria.setText(Datos.Materia.getNombre());
+//                fondo.setVisible(false);
+//                log.setVisible(false);
+//                lo.setVisible(false);
+//                //barra Lateral 
+//                barraInmovil.setSize(304, 800);
+//                barraInmovil.setVisible(true);
+        }
+    }
+
+    //Esto tiene que volver a ser reparado
+    public void cargarListaMaterias() {
+        barraInmovil.ListaMaterias.setListData(consultas.materias(Modelo.Usuario.getIdUsuario()));
+    }
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
