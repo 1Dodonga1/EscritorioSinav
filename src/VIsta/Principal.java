@@ -88,13 +88,6 @@ public class Principal extends javax.swing.JFrame {
                    saliendo();  }   
                  });
                 
-             /*barraInmovil.ListaMaterias.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                materias.setVisible(true);
-                materias.setLocation(304, 0);
-                materias.setSize(1100, 800);
-            }});*/
         
         ///panel login "editando el boton para logearse"
         this.getContentPane().add(PanelLogin); 
