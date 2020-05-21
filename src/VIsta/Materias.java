@@ -5,8 +5,12 @@
  */
 package VIsta;
 
+import Controlador.ConsultasSQLiteDB;
+import Modelo.Examenes;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
 
 /**
  *
@@ -14,12 +18,19 @@ import java.util.logging.Logger;
  */
 public class Materias extends javax.swing.JPanel {
 
+    ConsultasSQLiteDB conSQL = new ConsultasSQLiteDB();
+    public DefaultListModel modeloListaMateria;
+    public String MateriaActual;
+//    PanelAlumno panelalumno = new PanelAlumno();
+
     /**
      * Creates new form NewJPanel
      */
     public Materias() {
-        //txtNombre.setText(Datos.Usuario.getNombre());
+
         initComponents();
+        modeloListaMateria = new DefaultListModel();
+        ListaExamenesPlasmada.setModel(modeloListaMateria);
     }
 
     /**
@@ -31,31 +42,24 @@ public class Materias extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        txtMateria = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        txtNombre = new javax.swing.JLabel();
+        LabelMateria = new javax.swing.JLabel();
+        LabelAlumno = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        ListaExamenes = new javax.swing.JList<>();
+        ListaExamenesPlasmada = new javax.swing.JList<>();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setLayout(null);
 
-        txtMateria.setFont(new java.awt.Font("DialogInput", 0, 36)); // NOI18N
-        txtMateria.setText("Nombre Materia");
-        add(txtMateria);
-        txtMateria.setBounds(47, 6, 317, 62);
+        LabelMateria.setFont(new java.awt.Font("DialogInput", 0, 36)); // NOI18N
+        LabelMateria.setText("Nombre Materia");
+        add(LabelMateria);
+        LabelMateria.setBounds(47, 6, 317, 62);
 
-        jLabel2.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(153, 153, 153));
-        jLabel2.setText("Bienvenido ");
-        add(jLabel2);
-        jLabel2.setBounds(260, 95, 94, 24);
-
-        txtNombre.setFont(new java.awt.Font("Bell MT", 0, 18)); // NOI18N
-        txtNombre.setText("Nombre Alumno");
-        add(txtNombre);
-        txtNombre.setBounds(386, 90, 223, 37);
+        LabelAlumno.setFont(new java.awt.Font("Bell MT", 0, 18)); // NOI18N
+        LabelAlumno.setText("Lista de Examenes:");
+        add(LabelAlumno);
+        LabelAlumno.setBounds(280, 80, 223, 37);
 
         jLabel6.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
         jLabel6.setText("X");
@@ -65,33 +69,50 @@ public class Materias extends javax.swing.JPanel {
             }
         });
         add(jLabel6);
-        jLabel6.setBounds(980, 10, 27, 32);
+        jLabel6.setBounds(980, 10, 27, 30);
 
-        ListaExamenes.setBackground(new java.awt.Color(255, 255, 255));
-        ListaExamenes.setFont(new java.awt.Font("DialogInput", 0, 18)); // NOI18N
-        ListaExamenes.setForeground(new java.awt.Color(51, 51, 51));
-        ListaExamenes.setModel(new javax.swing.AbstractListModel<String>() {
+        ListaExamenesPlasmada.setForeground(new java.awt.Color(102, 102, 102));
+        ListaExamenesPlasmada.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane1.setViewportView(ListaExamenes);
+        ListaExamenesPlasmada.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                ListaExamenesPlasmadaMousePressed(evt);
+            }
+        });
+        jScrollPane1.setViewportView(ListaExamenesPlasmada);
 
         add(jScrollPane1);
-        jScrollPane1.setBounds(110, 230, 550, 230);
+        jScrollPane1.setBounds(180, 160, 480, 240);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
-       this.setVisible(false);
+        this.setVisible(false);
     }//GEN-LAST:event_jLabel6MouseClicked
+
+    private void ListaExamenesPlasmadaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ListaExamenesPlasmadaMousePressed
+        System.out.println("Me presionaste");
+    }//GEN-LAST:event_ListaExamenesPlasmadaMousePressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public javax.swing.JList<String> ListaExamenes;
-    private javax.swing.JLabel jLabel2;
+    public javax.swing.JLabel LabelAlumno;
+    public javax.swing.JLabel LabelMateria;
+    public javax.swing.JList<String> ListaExamenesPlasmada;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
-    public javax.swing.JLabel txtMateria;
-    public javax.swing.JLabel txtNombre;
     // End of variables declaration//GEN-END:variables
+
+    public void RellenarListaExamenes(ArrayList<Examenes> MiListaExamenes) {
+        
+        
+        LabelMateria.setText(MateriaActual);
+        modeloListaMateria.removeAllElements();
+        for (Examenes mle : MiListaExamenes) {
+            modeloListaMateria.addElement(mle.getNombreE());
+        }
+    }
+
 }

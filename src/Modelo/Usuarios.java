@@ -9,20 +9,18 @@ package Modelo;
  *
  * @author ftm
  */
-public class Usuario_Local {
+public class Usuarios {
 
+    public String id;
     public String usuario;
     public String contraseña;
-    public String id;
 
-    public Usuario_Local(String Usuario, String Contraseña,String id) {
-        this.usuario = Usuario;
-        this.contraseña = Contraseña;
-        this.id = id;
-    }
+    public Usuarios(String ID, String Usuario, String Contraseña) {
+
+        id = ID;
+        usuario = Usuario;
+        contraseña = Contraseña;
+
+    } 
     
-    public String getId(){
-    return this.id;
-    }
-
 }

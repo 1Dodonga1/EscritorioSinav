@@ -1,43 +1,42 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package Conexiones;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
+/**
+ *
+ * @author Alma Cuevas
+ */
 public class Conexion {
-    private static Connection conexion;
-    private String servidor, user, pass;
-    public Conexion(String s, String u, String p) {
-
-        this.servidor = s;
-        this.user = u;
-        this.pass = p;
-        hacerConexion();
-    } 
-    private void hacerConexion() {
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            conexion = DriverManager.getConnection(servidor, user, pass);
-            if (conexion != null) {
-                System.out.println("se conecto correctamente");
-            }
-
-        } catch (ClassNotFoundException ex) {
-            System.out.println("Error con el conector o datos del servidor " + ex.toString());
-        } catch (SQLException ex) {
-            System.out.println("no" + ex.toString());
-        }
+        public  Connection nuevaConexion;
+        private String servidor, user,pass;
         
-    }
-    public static Connection getConexion() {
-        return conexion;
-    }
-    public static void setConexion(Connection conexion) {
-        Conexion.conexion = conexion;
-    }
-    public static void cerrarConexion() throws SQLException{
-        Conexion.conexion.close();
-    }
+    public Conexion(String s,String u,String p){
+       this.servidor=s;
+        this.user=u;
+        this.pass=p;
+        hacerConexion();
+  }
+      
+    
+    
+  public void hacerConexion(){
+      try {
+          Class.forName("com.mysql.jdbc.Driver");
+          nuevaConexion=DriverManager.getConnection(servidor,user,pass);
+          if (nuevaConexion!=null) {
+              System.out.println("se coneccto corectamente");
+          }
+      } catch (ClassNotFoundException e) {
+           System.out.println("Error con el conector o datos del servidor " + e.toString());
+      }catch (SQLException ex) {
+            System.out.println("no " + ex.toString());
+        }
+  }
+
 }
